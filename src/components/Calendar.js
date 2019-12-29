@@ -150,15 +150,17 @@ class Calendar extends PureComponent {
   }
   handleScroll() {
     const { onShownDateChange, minDate } = this.props;
-    const visibleMonths = this.list.getVisibleRange();
-    // prevent scroll jump with wrong visible value
-    if (visibleMonths[0] === undefined) return;
-    const visibleMonth = addMonths(minDate, visibleMonths[0] || 0);
-    const isFocusedToDifferent = !isSameMonth(visibleMonth, this.state.focusedDate);
-    if (isFocusedToDifferent) {
-      this.setState({ focusedDate: visibleMonth });
-      onShownDateChange && onShownDateChange(visibleMonth);
-    }
+    setTimeout(() => {
+      const visibleMonths = this.list.getVisibleRange();
+      // prevent scroll jump with wrong visible value
+      if (visibleMonths[0] === undefined) return;
+      const visibleMonth = addMonths(minDate, visibleMonths[0] || 0);
+      const isFocusedToDifferent = !isSameMonth(visibleMonth, this.state.focusedDate);
+      if (isFocusedToDifferent) {
+        this.setState({ focusedDate: visibleMonth });
+        onShownDateChange && onShownDateChange(visibleMonth);
+      }
+    }, 100);
   }
   renderMonthAndYear(focusedDate, changeShownDate, props) {
     const { showMonthArrow, locale, minDate, maxDate, showMonthAndYearPickers } = props;
